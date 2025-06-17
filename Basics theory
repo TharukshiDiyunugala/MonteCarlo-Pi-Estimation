@@ -1,0 +1,45 @@
+> Randomly generate points in a squre
+> count how many fall inside the quarter circle
+> use the ration to estimate Pi
+
+Pi ~= 4 x (points in circle) / (Total points)
+
+
+    OpenMP:
+
+gcc -fopenmp -o monte_openmp monte_carlo_openmp.c
+
+    MPI:
+
+mpicc -o monte_mpi monte_carlo_mpi.c
+
+    Hybrid (MPI + OpenMP):
+
+mpicc -fopenmp -o monte_hybrid monte_carlo_hybrid.c
+
+
+Run the Executables
+
+    OpenMP (e.g., using 4 threads):
+
+export OMP_NUM_THREADS=4
+./monte_openmp
+
+    MPI (e.g., using 4 processes):
+
+mpirun -np 4 ./monte_mpi
+
+    Hybrid (e.g., 2 MPI processes × 2 threads):
+    
+export OMP_NUM_THREADS=2
+mpirun -np 2 ./monte_hybrid
+
+serial
+gcc -o monte_serial monte_carlo_serial.c
+
+Run and Time:
+
+time ./monte_serial
+
+
+https://chatgpt.com/c/684e44d9-60d4-8006-a295-ece388e74aec
