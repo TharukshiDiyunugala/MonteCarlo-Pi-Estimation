@@ -7,7 +7,7 @@ Pi ~= 4 x (points in circle) / (Total points)
 
     OpenMP:
 
-gcc -fopenmp -o monte_openmp monte_carlo_openmp.c
+gcc -fopenmp -o monte_openmp monte_carlo_openmp.c -lm
 
     MPI:
 
@@ -15,7 +15,7 @@ mpicc -o monte_mpi monte_carlo_mpi.c
 
     Hybrid (MPI + OpenMP):
 
-mpicc -fopenmp -o monte_hybrid monte_carlo_hybrid.c
+mpicc -fopenmp -o monte_hybrid monte_carlo_hybrid.c -lm
 
 
 Run the Executables
@@ -23,7 +23,7 @@ Run the Executables
     OpenMP (e.g., using 4 threads):
 
 export OMP_NUM_THREADS=4
-./monte_openmp
+./monte_openmp #<nu of point>
 
     MPI (e.g., using 4 processes):
 

@@ -1,12 +1,11 @@
-// monte_carlo_mpi.c for sequential programming - multiple processes
-//distributed mmemory
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
+#include <math.h>
 
 int main(int argc, char *argv[]) {
     int rank, size;
-    long long int total_points = 1000000000;
+    long long int total_points, points_per_process;
     long long int local_count = 0, global_count = 0;
     double x, y;
 
@@ -14,7 +13,15 @@ int main(int argc, char *argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);  // Get current process ID
     MPI_Comm_size(MPI_COMM_WORLD, &size);  // Get total number of processes
 
-    long long int points_per_process = total_points / size;
+    if (argc != 2) {
+        if (rank == 0)
+            printf("Usage: %s <total_points>\n", argv[0]);
+        MPI_Finalize();
+        return 1;
+    }
+
+    total_points = atoll(argv[1]);
+    points_per_process = total_points / size;
     unsigned int seed = rank + 1;  // Unique seed per process
 
     double start = MPI_Wtime();  // Start timer
@@ -33,8 +40,13 @@ int main(int argc, char *argv[]) {
 
     if (rank == 0) {
         double pi_estimate = 4.0 * global_count / total_points;
+        double pi_error = fabs(M_PI - pi_estimate);
+        double time_taken = end - start;
+
+        printf("Total Points: %lld\n", total_points);
         printf("MPI estimate of Pi = %.10f\n", pi_estimate);
-        printf("Execution Time = %.4f seconds\n", end - start);
+        printf("Error = %.10f\n", pi_error);
+        printf("Execution Time = %.4f seconds\n", time_taken);
     }
 
     MPI_Finalize();

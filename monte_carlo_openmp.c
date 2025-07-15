@@ -1,10 +1,15 @@
-// monte_carlo_openmp.c for parallel programming - shared memory(multiple threads)
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
+#include <math.h>
 
-int main() {
-    long long int total_points = 1000000000;  
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <total_points>\n", argv[0]);
+        return 1;
+    }
+
+    long long int total_points = atoll(argv[1]);  
     long long int inside_circle = 0;
     double x, y;
 
@@ -24,9 +29,14 @@ int main() {
     }
 
     double pi_estimate = 4.0 * inside_circle / total_points;
+    double pi_error = fabs(M_PI - pi_estimate);
     double end = omp_get_wtime();  // End timer
+    double time_taken = end - start;
 
+    printf("Total Points: %lld\n", total_points);
     printf("OpenMP estimate of Pi = %.10f\n", pi_estimate);
-    printf("Execution Time = %.4f seconds\n", end - start);
+    printf("Error = %.10f\n", pi_error);
+    printf("Execution Time = %.4f seconds\n", time_taken);
+
     return 0;
 }
