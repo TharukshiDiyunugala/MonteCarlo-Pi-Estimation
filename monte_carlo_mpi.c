@@ -1,4 +1,5 @@
-// monte_carlo_mpi.c for sequential programming
+// monte_carlo_mpi.c for sequential programming - multiple processes
+//distributed mmemory
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>

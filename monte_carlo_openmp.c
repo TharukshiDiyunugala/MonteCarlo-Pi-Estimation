@@ -1,10 +1,10 @@
-// monte_carlo_openmp.c for parallel programming
+// monte_carlo_openmp.c for parallel programming - shared memory(multiple threads)
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
 
 int main() {
-    long long int total_points = 1000000000;  // Number of random points
+    long long int total_points = 1000000000;  
     long long int inside_circle = 0;
     double x, y;
 

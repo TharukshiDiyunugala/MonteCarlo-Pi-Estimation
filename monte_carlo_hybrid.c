@@ -1,4 +1,5 @@
-// monte_carlo_hybrid.c
+// monte_carlo_hybrid.c - combines MPI (distributed memory) and OpenMP 
+// (shared memory) to perform a highly efficient Monte Carlo simulation
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>

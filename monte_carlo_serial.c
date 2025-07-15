@@ -1,40 +1,40 @@
-// monte_carlo_serial.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
-int main() {
-    // Number of random points to simulate
-    long long int total_points = 1000000000;  // 1 billion points for better performance test
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <total_points>\n", argv[0]);
+        return 1;
+    }
+
+    long long int total_points = atoll(argv[1]);
     long long int inside_circle = 0;
     double x, y;
 
-    // Seed the random number generator with current time
     srand(time(NULL));
 
-    // Start measuring time
-    clock_t start = clock();
+    clock_t start = clock();  // start timer
 
-    // Perform the Monte Carlo simulation
     for (long long int i = 0; i < total_points; i++) {
-        x = (double)rand() / RAND_MAX;  // Random x in [0,1]
-        y = (double)rand() / RAND_MAX;  // Random y in [0,1]
+        x = (double)rand() / RAND_MAX;
+        y = (double)rand() / RAND_MAX;
 
-        // Check if the point (x, y) lies inside the unit circle
         if (x * x + y * y <= 1.0)
             inside_circle++;
     }
 
-    // Estimate the value of Pi
     double pi_estimate = 4.0 * inside_circle / total_points;
+    double pi_error = fabs(M_PI - pi_estimate);
 
-    // End measuring time
-    clock_t end = clock();
+    clock_t end = clock();  // end timer
     double time_taken = (double)(end - start) / CLOCKS_PER_SEC;
 
-    // Print results
-    printf("Serial estimate of Pi = %.10f\n", pi_estimate);
-    printf("Execution Time = %.4f seconds\n", time_taken);
+    printf("Total Points: %lld\n", total_points);
+    printf("Pi Estimate: %.10f\n", pi_estimate);
+    printf("Error: %.10f\n", pi_error);
+    printf("Execution Time: %.4f seconds\n", time_taken);
 
     return 0;
 }
