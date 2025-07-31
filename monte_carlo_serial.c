@@ -13,13 +13,12 @@ int main(int argc, char *argv[]) {
     long long int inside_circle = 0;
     double x, y;
 
-    srand(time(NULL));
-
-    clock_t start = clock();  // start timer
+    unsigned int seed = (unsigned int)time(NULL);  // ✅ Initialize seed
+    clock_t start = clock();  // Start timer
 
     for (long long int i = 0; i < total_points; i++) {
-        x = (double)rand() / RAND_MAX;
-        y = (double)rand() / RAND_MAX;
+        x = (double)rand_r(&seed) / RAND_MAX;  // ✅ Pass seed by reference
+        y = (double)rand_r(&seed) / RAND_MAX;
 
         if (x * x + y * y <= 1.0)
             inside_circle++;
@@ -28,7 +27,7 @@ int main(int argc, char *argv[]) {
     double pi_estimate = 4.0 * inside_circle / total_points;
     double pi_error = fabs(M_PI - pi_estimate);
 
-    clock_t end = clock();  // end timer
+    clock_t end = clock();  // End timer
     double time_taken = (double)(end - start) / CLOCKS_PER_SEC;
 
     printf("Total Points: %lld\n", total_points);
